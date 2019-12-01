@@ -3,6 +3,7 @@
 #include <vector>
 #include <memory>
 
+
 class BlockFactory;
 class MovementController;
 class DisplayController;
@@ -21,21 +22,24 @@ class GameController {
     int score;
     int highestScore;
     shared_ptr<BlockFactory> blockFactory;
-    shared_ptr<MovementController> movementController;
     shared_ptr<DisplayController> displayController;
-    shared_ptr<Grid> grid;
     unique_ptr<BlcokConfigurator> blockConfigurator;
+    shared_ptr<MovementController> movementController;
+    shared_ptr<PostProcessor> postProcessor;
     unique_ptr<GridInspector> gridInspector;
-    unique_ptr<PostProcessor> postProcessor;
+    shared_ptr<Grid> grid;
+    
     setLevel(int level);
     
 public:
     GameController(shared_ptr<BlockFactory> factory,
-                   shared_ptr<MovementController> movement,
                    shared_ptr<DisplayController> display,
-                   shared_ptr<Grid> grid);
+                   shared_ptr<PostProcessor> postProcessor;
+                   shared_ptr<BlcokConfigurator> blockConfigurator;
+                   );
     
     executeOperation(unique_ptr<Operation> &operation);
     levelUp();
     levelDown();
 }
+#endif

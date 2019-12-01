@@ -5,7 +5,7 @@
 enum class Instruction {Over};
 
 class Operation {
-    std::unique_ptr<Operation> next;
+    std::unique_ptr<Operation> next = nullptr;
     int times_to_exectute;
     Instruction current;
     
