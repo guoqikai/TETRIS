@@ -94,7 +94,7 @@ void GridInspector::resetScore() {
     score = 0;
 }
 
-void GridInspector::reset() {
+void GridInspector::ckean() {
     resetScore();
     tackedBlocks = {};
 }

@@ -25,7 +25,7 @@ public:
     int calculateScore(int currentLevel) const;
     bool triggeredAction() const;
     void resetScore();
-    void reset()
+    void clean();
 };
 
 #endif

@@ -35,7 +35,7 @@ void GameController::executeOperation(unique_ptr<Operation> &operation) {
                 mc.injectBlock(currenBlock);
             }
             if (ins == Instruction::IBlock) {
-            
+                
             }
             else if (ins == Instruction::JBlock) {
             
@@ -83,11 +83,14 @@ void GameController::executeOperation(unique_ptr<Operation> &operation) {
 }
 
 void GameController::startNewTurn() {
-
+    
 }
 
 void GameController::restart() {
-    
+    cuurentScore = 0;
+    grid.clean();
+    dc.clean();
+    inspector.reset();
 }
 
 void GameController::levelUp() {

@@ -31,6 +31,7 @@ class GameController {
     PostProcessor postProcessor;
     std::unique_ptr<Block> currenBlock;
     void setLevel();
+    void startNewTurn();
     
 public:
     GameController(BlockFactory &norandomFactory, DisplayController &display);
@@ -38,6 +39,7 @@ public:
     void levelUp();
     void levelDown();
     void addObserver(std::shared_ptr<Observer> observer);
+    void restart();
 }
 
 #endif
