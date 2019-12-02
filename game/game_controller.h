@@ -2,44 +2,42 @@
 #define GAME_CONTROLLER_H
 #include <vector>
 #include <memory>
+#include "post_processor.h"
+#include "block_factory.h"
+#include "movement_controller.h"
+#include "grid_inspector.h"
+#include "display_controller.h"
+#include "block_configutator.h"
+#include "post_processor.h"
+#include "grid.h"
 
-
-class BlockFactory;
-class MovementController;
-class DisplayController;
-class BlcokConfigurator;
-class GridInspector;
-class PostProcessor;
-class Grid;
 class Operation;
+class Block;
 
 class GameController {
     
-    ControllerState state;
-    std::vector<Observer> observers;
+    std::vector<std::shared_ptr<Observer>> observers;
     int level;
     const int maxLevel = 4;
     int score;
     int highestScore;
-    shared_ptr<BlockFactory> blockFactory;
-    shared_ptr<DisplayController> displayController;
-    unique_ptr<BlcokConfigurator> blockConfigurator;
-    shared_ptr<MovementController> movementController;
-    shared_ptr<PostProcessor> postProcessor;
-    unique_ptr<GridInspector> gridInspector;
-    shared_ptr<Grid> grid;
-    
-    setLevel(int level);
+    BlockFactory currentFactory;
+    BlockFactory norandomFactory;
+    DisplayController dc;
+    MovementController mc;
+    GridInspector inspector;
+    Grid grid;
+    BlcokConfigurator blockConfigurator;
+    PostProcessor postProcessor;
+    std::unique_ptr<Block> currenBlock;
+    void setLevel();
     
 public:
-    GameController(shared_ptr<BlockFactory> factory,
-                   shared_ptr<DisplayController> display,
-                   shared_ptr<PostProcessor> postProcessor;
-                   shared_ptr<BlcokConfigurator> blockConfigurator;
-                   );
-    
-    executeOperation(unique_ptr<Operation> &operation);
-    levelUp();
-    levelDown();
+    GameController(BlockFactory &norandomFactory, DisplayController &display);
+    void executeOperation(unique_ptr<Operation> &operation);
+    void levelUp();
+    void levelDown();
+    void addObserver(std::shared_ptr<Observer> observer);
 }
+
 #endif

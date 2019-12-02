@@ -2,7 +2,11 @@
 #include "grid.h"
 #include "block.h"
 
-void GridInspector::updateGrid(std::unique_ptr<MovementController> &mc,  std::shared_ptr<Grid> &grid) {
+GridInspector::GridInspector(Grid *grid) {
+    this->grid = grid;
+}
+
+void GridInspector::updateGrid(MovementController *mc) {
     int removed = cleanFilledRow(std::shared_ptr<Grid> &grid);
     numRowsRemoved += removed;
     cleanRemovedBlock();
@@ -17,7 +21,7 @@ void GridInspector::updateGrid(std::unique_ptr<MovementController> &mc,  std::sh
     }
 }
 
-int GridInspector::cleanFilledRow(std::shared_ptr<Grid> &grid) const {
+int GridInspector::cleanFilledRow() const {
     int rowRemoved = 0;
     for (int y = 3; y < grid->getMaxY(); y++) {
         allFilled = true;
@@ -35,7 +39,7 @@ int GridInspector::cleanFilledRow(std::shared_ptr<Grid> &grid) const {
     return rowRemoved;
 }
 
-bool GridInspector::dropAllBlock(std::unique_ptr<MovementController> &mc) {
+bool GridInspector::dropAllBlock(MovementController *mc) {
     bool blockDropped = false;
     for ( auto i = tackedBlocks.begin(); i != tackedBlocks.end(); ++i) {
         mc-> setCurrentBlock(i->first);
@@ -85,7 +89,12 @@ bool GridInspector::triggeredAction() const {
     return numRowsRemoved > 1;
 }
 
-void GridInspector::reset() {
+void GridInspector::resetScore() {
     numLinesRemoved = 0;
     score = 0;
+}
+
+void GridInspector::reset() {
+    resetScore();
+    tackedBlocks = {};
 }

@@ -10,8 +10,7 @@ class RandomBlockFactory : public BlockFactory {
     int sumP;
     
 public:
-    RandomBlockFactory(std::map<std::string, int> &map);
+    RandomBlockFactory(std::map<std::string, int> map);
     std::unique_ptr<Block> getBlock() override;
-    void setSeed(int seed);
 };
 #endif

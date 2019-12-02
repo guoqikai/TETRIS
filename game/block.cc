@@ -21,3 +21,7 @@ void Block::rotateClockwise() {
 int Block::getLevel() const {
     return level;
 }
+
+void Block::setLevel(int level) {
+    this->level = level;
+}

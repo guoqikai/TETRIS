@@ -2,7 +2,7 @@
 #include "block.h"
 #include "grid.h"
 
-MovementController::MovementController(std::shared_ptr<Grid> &grid) {
+MovementController::MovementController(Grid *grid) {
     this->grid = grid;
 }
 
@@ -95,7 +95,7 @@ void MovementController::eraseBlock(std::vector<std::vector<bool>> const &shape,
     for (int y = 0; y < shape.size; y++) { 
          for (int x = 0; x < shape[y].size(); x++) { 
              if (shape[y][x]) {
-                 grid->setBlockType(x + xPos, yPos - y, "");
+                 grid->setBlockType(xPos + x, yPos - y, "");
                  grid->markCell(xPos + x, yPos - y);
              }
          } 
@@ -106,7 +106,7 @@ void MovementController::placeBlock(std::vector<std::vector<bool>> const &shape,
     for (int y = 0; y < shape.size; y++) { 
          for (int x = 0; x < shape[y].size(); x++) { 
              if (shape[y][x]) {
-                 grid->markCell(xPos + x, yPos + y);
+                 grid->markCell(xPos + x, yPos - y);
                  grid->setBlockType(xPos + x, yPos - y, currentBlock->getType());
              }
          } 
@@ -124,17 +124,17 @@ bool MovementController::canPlaceBlock(std::vector<std::vector<bool>> const &sha
     return true;
 }
 
-bool MovementController::injectBlock(std::unique_ptr<Block> &blcok) {
-    int xPos = block->xPos;
-    int yPos = block->yPos;
+bool MovementController::injectBlock(std::unique_ptr<Block> &blcok, int xPos, int yPos) {
     auto shape = block.getShape();
     if (!canPlaceBlock(shape, xPos, yPos)) {
-        return false
+        return false;
     }
     eraseBlock(shape, xPos, yPos);
     placeBlcok(shape, xPos, yPos);
+    block->xPos = xPos;
+    block->yPos = yPos;
     currentBlock = std::move(blcok);
-    return true
+    return true;
 }
 
 void MovementController::setCurrentBlock(std::unique_ptr<Block> &blcok) {

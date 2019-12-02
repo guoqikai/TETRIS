@@ -3,13 +3,12 @@
 #include "random_block_factory.h"
 #include "block.h"
 
-RandomBlockFactory::RandomBlockFactory(std::map<std::string, int> &map) {
+RandomBlockFactory::RandomBlockFactory(std::map<std::string, int> const map) {
     for (auto i = map.begin(); i != map.end(); ++i) {
         assert(i->second > 0);
         sumP += i->second;
     }
     probabilityMap = std::move(map);
-    seed = 0;
 }
 
 std::unique_ptr<Block> RandomBlockFactory::getBlock() {

@@ -22,18 +22,13 @@ std::unique_ptr<Block> BlockFactory::getBlock(std::string name) {
     if (name == "T") {
         return std::make_unique(TBlock{});
     }
-    return std::make_unique(ZBlock{});
+    if (name == "Z") {
+        return std::make_unique(ZBlock{});
+    }
+    return std::make_unique(StarBlock{});
 }
 
-void BlockFactory::setSequence(std::unique_ptr<std::vector<std::string> > &sequence) {
-    BlockFactory::sequence = std::move(sequence);
-}
-
-std::unique_ptr<BlockFactory> BlockFactory::getRandomBlockFactory(std::unique_ptr<std::map<std::string, int> > const &map) {
-    return std::make_unique(map);
-}
-
-std::unique_ptr<BlockFactory> BlockFactory::getNorandomBlockFactory() {
-    return std::make_unique(NorandomBlockFactory(*BlockFactory::sequence));
+BlockFactory BlockFactory::getRandomBlockFactory(std::map<std::string, int> const &map) {
+    return RandomBlockFactory(map);
 }
 

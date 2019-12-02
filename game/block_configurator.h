@@ -12,12 +12,11 @@ class BlockConfigurator {
     int proLimitTimeBlock = 0;
     int limitTimeBlockLowerBound = 0;
     int limitTimeBlockUpperBound = 0;
-    int level = 0;
 
 
 public:
     void configureBlock(std::unique_ptr<Block> const &block); 
-    void setHeaviness(int heaviness);
+    void setHeaviness(int heavinessLower, int heavinessUpper);
     void setExtraHeaviness(int extra);
     void setProNomal(int proNomal);
     void setProLimitTime(int proLimit);

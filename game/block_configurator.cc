@@ -4,7 +4,6 @@
 
 void BlcokConfigurator::configureBlock(std::unique_ptr<Block> const &block) {
     assert(proNormalBlock || proLimitTimeBlock);
-    block->level = level;
     int block->heaviness = heavinessLowerBound + extraHeaviness;
     if (heavinessUpperBound != heavinessLowerBound) {
         block->heaviness += rand() % (heavinessUpperBound - heavinessLowerBound);

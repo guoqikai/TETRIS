@@ -7,14 +7,14 @@ class Block;
 class Grid;
 
 class MovementController {
-    std::shared_ptr<Grid> grid;
+    Grid *grid;
     std::unique_ptr<Block> currentBlock;
     void placeBlock(std::vector<std::vector<bool>> const &shape, int xPos, int yPos) const;
     void eraseBlock(std::vector<std::vector<bool>> const &shape, int xPos, int yPos) const;
     bool canPlaceBlock(std::vector<std::vector<bool>> const &shape, int xPos, int yPos) const;
 
 public:
-    MovementController(std::shared_ptr<Grid> &grid);
+    MovementController(Grid *grid);
     bool applyHeaviness() const;
     bool moveDown() const;
     void moveRight() const;

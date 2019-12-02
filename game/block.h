@@ -7,7 +7,7 @@ struct Grid;
 
 class Block {
     int shapeIndex = 0;
-    int heaviness;
+    int heaviness = 0;
     int lifetime = -1;
     int level = 0;
     int xPos = 0;
@@ -24,6 +24,7 @@ public:
     void rotateCounterClockwise();
     void rotateClockwise();
     int getLevel() const;
+    void setLevel(int level);
 };
 
 struct IBlock: public Block {
@@ -61,5 +62,9 @@ struct ZBlock: public Block {
     std::vector<std::vector<bool> > getShape() const override;
 };
 
+struct StarBlock: public Block {
+    std::string getType() const override;
+    std::vector<std::vector<bool> > getShape() const override;
+};
 
 #endif
