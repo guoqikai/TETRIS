@@ -13,19 +13,18 @@ class MovementController {
 
 public:
     MovementController(std::shared_ptr<Grid> &grid);
-    boolean applyHeaviness() const;
-    boolean moveDown() const;
+    bool applyHeaviness() const;
+    bool moveDown() const;
     void moveRight() const;
     void moveLeft() const;
     void rotate(bool clcokwise) const;
-    void drop() const;
+    bool drop() const;
     void placeBlock(std::vector<std::vector<bool>> const &shape, int xPos, int yPos) const;
     void eraseBlock(std::vector<std::vector<bool>> const &shape, int xPos, int yPos) const;
     bool canPlaceBlock(std::vector<std::vector<bool>> const &shape, int xPos, int yPos) const;
-    bool setBlock(std::unique_ptr<Block> &blcok);
+    bool setBlock(std::unique_ptr<Block> &blcok, int xPos, int yPos);
     std::unique_ptr<Block> getBlock();
 };
-
 
 #endif
 

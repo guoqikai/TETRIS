@@ -1,4 +1,6 @@
 #include "movement_controller.h"
+#include "block.h"
+#include "grid.h"
 
 MovementController::MovementController(std::shared_ptr<Grid> &grid) {
     this->grid = grid;
@@ -34,28 +36,26 @@ void MovementController::moveRight() const {
     int yPos = currentBlock->yPos;
     auto shape = currentBlock->getShape();
     if (!canPlaceBlock(shape, xPos + 1, yPos)) {
-        return false;
+        return;
     }
     eraseBlock(shape, xPos, yPos);
     placeBlcok(shape, xPos + 1, yPos);
     currentBlock->xPos ++;
-    return true;
 }
 
 void MovementController::moveLeft() const {
     int xPos = currentBlock->xPos;
     int yPos = currentBlock->yPos;
     if (xPos - 1 < 0) {
-        return false;
+        return;
     }
     auto shape = currentBlock->getShape();
     if (!canPlaceBlock(shape, xPos - 1, yPos)) {
-        return false
+        return;
     }
     eraseBlock(shape, xPos, yPos);
     placeBlcok(shape, xPos - 1, yPos);
     currentBlock->xPos --;
-    return true
 }
 
 void MovementController::rotate(bool clcokwise) const {
@@ -75,19 +75,20 @@ void MovementController::rotate(bool clcokwise) const {
         else {
             currentBlock->rotateClockwise();
         }
-        return false
+        return;
     }
     eraseBlock(shape, xPos, yPos);
     placeBlcok(currentBlock->getShape(), xPos, yPos);
-    return true
 
 }
 
-void MovementController::drop() const {
-    bool canMoveDown = true
+bool MovementController::drop() const {
+    bool canMoveDown = moveDown();
+    bool hasMove = canMoveDown;
     while (canMoveDown) {
         canMoveDown = moveDown;
     }
+    return hasMove;
 }
 
 void MovementController::eraseBlock(std::vector<std::vector<bool>> const &shape, int xPos, int yPos) const {
@@ -122,9 +123,17 @@ bool MovementController::canPlaceBlock(std::vector<std::vector<bool>> const &sha
     return true;
 }
 
-bool MovementController::setBlock(std::unique_ptr<Block> &blcok) {
+bool MovementController::setBlock(std::unique_ptr<Block> &blcok, int xPos, int yPos) {
+    int xPos = block.xPos;
+    int yPos = block.yPos;
+    auto shape = block.getShape();
+    if (!canPlaceBlock(shape, xPos, yPos)) {
+        return false
+    }
+    eraseBlock(shape, xPos, yPos);
+    placeBlcok(shape, xPos, yPos);
     currentBlock = std::move(blcok);
-
+    return true
 }
 
 std::unique_ptr<Block> MovementController::getBlock() {
