@@ -1,0 +1,1 @@
+std::map<std::unique_ptr<Block>, std::vector<std::weak_ptr<Cell> > > tackedBlocks;

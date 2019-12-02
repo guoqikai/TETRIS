@@ -1,24 +1,23 @@
+#include <cstdlib>
+#include <assert.h>
 #include "random_block_factory.h"
-#include "block.h";
+#include "block.h"
 
-RandomBlockFactory::RandomBlockFactory(unqiue_ptr<std::map<std::string, float>> &map) {
-    for (auto i = map.begin(); it != map.end(); ++i) {
+RandomBlockFactory::RandomBlockFactory(std::map<std::string, int> &map) {
+    for (auto i = map.begin(); i != map.end(); ++i) {
+        assert(i->second > 0);
         sumP += i->second;
     }
     probabilityMap = std::move(map);
+    seed = 0;
 }
 
-void RandomBlockFactory::setSeed(int seed) {
-    this->seed = seed;
-}
-
-unqiue_ptr<Block> RandomBlockFactory::getBlock() const {
-    int randVal = srand(seed) % sumP;
+std::unique_ptr<Block> RandomBlockFactory::getBlock() {
+    int randVal = rand() % sumP;
     int sum = 0;
-    for (auto i = probabilityMap.begin(); it != probabilityMap.end(); ++i) {
+    for (auto i = probabilityMap.begin(); i != probabilityMap.end(); ++i) {
         if (sum + i->second > randVal) {
-            return getBlock(i->first);
+            return BlockFactory::getBlock(i->first);
         }
     }
-    return nullptr;
 }

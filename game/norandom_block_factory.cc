@@ -2,17 +2,17 @@
 #include "block.h"
 
 NorandomBlockFactory::NorandomBlockFactory(std::vector<std::string> sequence) {
-    this->sequence = sequence;
+    this->sequence = std::move(sequence);
     nextIndex = 0;
 }
 
-unqiue_ptr<Block> NorandomBlockFactory::getBlock() {
-    std::string name = vector[nextIndex];
+std::unique_ptr<Block> NorandomBlockFactory::getBlock() {
+    std::string name = sequence[nextIndex];
     nextIndex ++;
     if (nextIndex == sequence.size()) {
         nextIndex = 0;
     }
-    return getBlock(name);
+    return BlockFactory::getBlock(name);
 }
 
 

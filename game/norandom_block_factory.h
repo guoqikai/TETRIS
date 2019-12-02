@@ -11,7 +11,8 @@ class NorandomBlockFactory : public BlockFactory {
     
 public:
     NorandomBlockFactory(std::vector<std::string> sequence);
-    unqiue_ptr<Block> getBlock() override;
-}
+    std::unique_ptr<Block> getBlock() override;
+};
+
 #endif
 
