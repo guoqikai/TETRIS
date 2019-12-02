@@ -4,6 +4,6 @@
 
 struct Cell {
     std::string blockType = "";
-    bool isOccupied = false;
+    bool isMarked = false;
 };
 #endif

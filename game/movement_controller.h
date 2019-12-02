@@ -9,7 +9,9 @@ class Grid;
 class MovementController {
     std::shared_ptr<Grid> grid;
     std::unique_ptr<Block> currentBlock;
-
+    void placeBlock(std::vector<std::vector<bool>> const &shape, int xPos, int yPos) const;
+    void eraseBlock(std::vector<std::vector<bool>> const &shape, int xPos, int yPos) const;
+    bool canPlaceBlock(std::vector<std::vector<bool>> const &shape, int xPos, int yPos) const;
 
 public:
     MovementController(std::shared_ptr<Grid> &grid);
@@ -19,10 +21,8 @@ public:
     void moveLeft() const;
     void rotate(bool clcokwise) const;
     bool drop() const;
-    void placeBlock(std::vector<std::vector<bool>> const &shape, int xPos, int yPos) const;
-    void eraseBlock(std::vector<std::vector<bool>> const &shape, int xPos, int yPos) const;
-    bool canPlaceBlock(std::vector<std::vector<bool>> const &shape, int xPos, int yPos) const;
-    bool setBlock(std::unique_ptr<Block> &blcok, int xPos, int yPos);
+    bool injectBlock(std::unique_ptr<Block> &blcok, int xPos, int yPos);
+    void setCurrentBlock(std::unique_ptr<Block> &blcok)
     std::unique_ptr<Block> getBlock();
 };
 

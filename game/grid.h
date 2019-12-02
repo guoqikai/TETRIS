@@ -15,10 +15,10 @@ class Grid {
     const int maxY;
     
 public:
-    Grid(int maxX, int maxY);
+    Grid(int sizeX, int sizeY);
     void setBlockType(int xPos, int yPos, std::string type) const;
     void markCell(int xPos, int yPos) const;
-    void unmarkCell(int xPos, int yPos) const
+    void unmarkAllCells() const;
     std::string getBlockType(int xPos, int yPos) const;
     bool isMarked(int xPos, int yPos) const;
     std::weak_ptr<Cell> getCell(int xPos, int yPos) const;

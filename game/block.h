@@ -20,36 +20,44 @@ protected:
     
 public:
     virtual std::unique_ptr<std::vector<std::vector<bool> > > getShape() const = 0;
+    virtual std::string getType() const = 0;
     void rotateCounterClockwise();
     void rotateClockwise();
     int getLevel() const;
 };
 
 struct IBlock: public Block {
+    std::string getType() const override;
     std::vector<std::vector<bool> > getShape() const override;
 };
 
 struct JBlock: public Block {
+    std::string getType() const override;
     std::vector<std::vector<bool> > getShape() const override;
 };
 
 struct LBlock: public Block {
+    std::string getType() const override;
     std::vector<std::vector<bool> > getShape() const override;
 };
 
 struct OBlock: public Block {
+    std::string getType() const override;
     std::vector<std::vector<bool> > getShape() const override;
 };
 
 struct SBlock: public Block {
+    std::string getType() const override;
     std::vector<std::vector<bool> > getShape() const override;
 };
 
 struct TBlock: public Block {
+    std::string getType() const override;
     std::vector<std::vector<bool> > getShape() const override;
 };
 
 struct ZBlock: public Block {
+    std::string getType() const override;
     std::vector<std::vector<bool> > getShape() const override;
 };
 
