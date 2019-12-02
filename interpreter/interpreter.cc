@@ -2,13 +2,14 @@
 #include "interpreter.h"
 #include "operation.h"
 
-Interpreter::Interpreter(std::vector<std::map<std::string, Operation>> &defaultSet)
-: commandSet(defaultSet), comSetMaxIndex(defaultSet.size())
+Interpreter::Interpreter(std::vector<std::map<std::string, std::unique_ptr<Operation>>> &defaultSet)
+comSetMaxIndex(defaultSet.size())
 {
+    commandSet = defaultset;
     comSetIndex = 0;
 }
 
-unique_ptr<Operation> Interpreter::interpretCommand(std::string numCommand) const {
+std::unique_ptr<Operation> Interpreter::interpretCommand(std::string numCommand) const {
     int times = 0
     std::string command = "";
     for(std::string::size_type i = 0; i < numCommand.size(); ++i) {
@@ -20,7 +21,7 @@ unique_ptr<Operation> Interpreter::interpretCommand(std::string numCommand) cons
         }
     }
     
-    unique_ptr<Operation> op = nullptr;
+    std::unique_ptr<Operation> op = nullptr;
     for(auto i = commandSet[comSetIndex].begin(); i != commandSet[comSetIndex].end(); ++i) {
         if ((i->first).find(command) == 0) {
             if (op == nullptr) {
@@ -42,7 +43,7 @@ void Interpreter::addCommand(std::string name, std::vector<std::string> commands
     if (commandSet[comSetIndex].count(name)) {
         throw InvalidCommand{"name already exist!"};
     }
-    unique_ptr<Operation> op = nullptr;
+    std::unique_ptr<Operation> op = nullptr;
     for (auto i = commands.rbegin(); i != commands.rend(); ++i ) {
         if (op == nullptr) {
             op = interpretCommand(command);
@@ -53,7 +54,7 @@ void Interpreter::addCommand(std::string name, std::vector<std::string> commands
             op = std::move(temp);
         }
     }
-    commandSet[commandSet][name] = *op;
+    commandSet[commandSet][name] = op;
 }
 
 void Interpreter::renameCommand(std::string oldName, std::string newName) {

@@ -1,24 +1,24 @@
-#include operation.h
+#include "operation.h"
 
 Instruction Operation::getNextInstruction() {
-    if (!times_to_exectute) {
+    if (!times_to_execute) {
         if (next != nullptr) {
             return next->getNextInstruction();
         }
         return Instruction::Over;
     }
-    times_to_exectute --;
+    times_to_execute --;
     return current;
 }
 
 void Operation::setTimes(int times) {
-    this->times = times;
+    times_to_execute = times;
 }
 
-void Operation::setNext(unique_ptr<Operation> &nextOp) {
+void Operation::setNext(std::unique_ptr<Operation> &nextOp) {
     next = std::move(nextOp);
 }
 
-unique_ptr<Operation> Operation::deepCopy() {
-    return make_unique(Operation{nextOp.deepCopy(), times, ins});
+std::unique_ptr<Operation> Operation::deepCopy() const {
+    return std::make_unique(Operation{next.deepCopy(), times_to_execute, current});
 }
