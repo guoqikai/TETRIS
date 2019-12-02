@@ -20,25 +20,91 @@ GameController(BlockFactory &norandomFactory, DisplayController &display, int le
     dc.drawNextBlock(currenBlock->getShape);
 }
 
-void executeOperation(unique_ptr<Operation> &operation) {
+void GameController::executeOperation(unique_ptr<Operation> &operation) {
+    Instruction ins = operation.getNextInstruction();
+    while (ins != Instruction::Over) {
+        if (ins == Instruction::Blind) {
+            dc.blind();
+        }
+        else if (ins == Instruction::Heavy) {
+            blockConfigurator.setExtraHeaviness(2);
+        }
+        else {
+            if (currenBlock != nullptr) {
+                dc.emptyNextBlock();
+                mc.injectBlock(currenBlock);
+            }
+            if (ins == Instruction::IBlock) {
+            
+            }
+            else if (ins == Instruction::JBlock) {
+            
+            }
+            else if (ins == Instruction::LBlock) {
+            
+            }
+            else if (ins == Instruction::OBlock) {
+            
+            }
+            else if (ins == Instruction::SBlock) {
+            
+            }
+            else if (ins == Instruction::ZBlock) {
+            
+            }
+            else if (ins == Instruction::TBlock) {
+            
+            }
+            else if (ins == Instruction::Left) {
+            
+            }
+            else if (ins == Instruction::Right) {
+            
+            }
+            else if (ins == Instruction::Down) {
+            
+            }
+            else if (ins == Instruction::Clockwise) {
+            
+            }
+            else if (ins == Instruction::Counterclockwise) {
+            
+            }
+            else if (ins == Instruction::Drop) {
+            
+            }
+            else if (ins == Instruction::Levelup) {
+            
+            }
+            else if (ins == Instruction::Leveldown) {
+            }
+        }
+    }
+}
+
+void GameController::startNewTurn() {
+
+}
+
+void GameController::restart() {
     
 }
 
-void levelUp() {
+void GameController::levelUp() {
     if (level < maxLevel) {
         level ++;
         setLevel();
     }
 }
-void levelDown() {
+void GameController::levelDown() {
     if (level > 0) {
         level --;
         setLevel();
     }
 }
 
-void setLevel() {
-    switch(leve;) {
+void GameController::setLevel() {
+    switch(level) {
         case 1 : {
             std::map<std::string, int> pMap = {{"S", 1}, {"Z", 1}, {"I", 2}, {"J", 2}, {"L", 2}, {"O", 2}, {"T", 2}};
             currentFactory = BlockFactory::getRandomBlockFactory(pMap);

@@ -17,7 +17,7 @@ class Interpreter {
     int comSetIndex;
     
 public:
-    Interpreter(std::vector<std::map<std::string,std::unique_ptr<Operation> > > &defaultSet);
+    Interpreter(std::vector<std::map<std::string,std::unique_ptr<Operation> > > defaultSet);
     std::unique_ptr<Operation> interpretCommand(std::string command) const;
     void addCommand(std::string command);
     void renameCommand(std::string oldName, std::string newName);

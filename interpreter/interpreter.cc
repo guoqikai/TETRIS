@@ -2,10 +2,10 @@
 #include "interpreter.h"
 #include "operation.h"
 
-Interpreter::Interpreter(std::vector<std::map<std::string, std::unique_ptr<Operation>>> &defaultSet)
+Interpreter::Interpreter(std::vector<std::map<std::string, std::unique_ptr<Operation>>> defaultSet)
 comSetMaxIndex(defaultSet.size())
 {
-    commandSet = defaultset;
+    commandSet = std::move(defaultset);
     comSetIndex = 0;
 }
 
@@ -54,7 +54,7 @@ void Interpreter::addCommand(std::string name, std::vector<std::string> commands
             op = std::move(temp);
         }
     }
-    commandSet[commandSet][name] = op;
+    commandSet[commandSet].emplace(name, op);
 }
 
 void Interpreter::renameCommand(std::string oldName, std::string newName) {
