@@ -14,9 +14,18 @@
 class Operation;
 class Block;
 
+enum class ControllerEvent {GameOver, Switch, Action, Normal};
+
+struct ControllerInfo {
+    int level;
+    std::string name;
+}
+
 class GameController {
     
-    std::vector<std::shared_ptr<Observer>> observers;
+    std::vector<Observer*> observers;
+    ControllerEvent event;
+    std::string name
     int level;
     const int maxLevel = 4;
     int score;
@@ -31,15 +40,19 @@ class GameController {
     PostProcessor postProcessor;
     std::unique_ptr<Block> currenBlock;
     void setLevel();
-    void startNewTurn();
+    void doAfterDrop();
     
 public:
-    GameController(BlockFactory &norandomFactory, DisplayController &display);
+    GameController(BlockFactory &norandomFactory, DisplayController &display, int level, std::string name);
+    void loadBlock(); 
     void executeOperation(unique_ptr<Operation> &operation);
     void levelUp();
     void levelDown();
-    void addObserver(std::shared_ptr<Observer> observer);
     void restart();
+    void notifyObervers();
+    void addObserver(Observer *ob);
+    ControllerEvent getEvent();
+    ControllerInfo getInfo();
 }
 
 #endif

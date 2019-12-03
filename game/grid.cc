@@ -48,7 +48,7 @@ std::weak_ptr<Cell> Grid::getCell(int xPos, int yPos) const{
 }
 
 void Grid::cleanOneRow(int rowNum) {
-    std::fill(cells[rowNum].begin(), cells[rowNum].end), std::make_shared(Cell{});
+    std::fill(cells[rowNum].begin(), cells[rowNum].end), std::make_shared(Cell{"", true});
 }
 
 void Grid::clean() {

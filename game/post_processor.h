@@ -4,17 +4,19 @@
 
 class MovementController;
 class GridInspector;
-class Grid;
 
 class PostProcessor {
-    dropBlockAfter = false;
-    initialPosX = 5;
-    initialPosY = 0;
+    bool dropBlockAfter = false;
+    int initialPosX = 5;
+    int initialPosY = 0;
+    int period = 5;
+    int timesLeft;
 
 public:
-    void executePostOperation(std::unique_ptr<MovementController> &mc, std::unique_ptr<GridInspector> &gi, std::unique_ptr<Grid> &grid);
+    void executePostOperation(std::unique_ptr<MovementController> &mc, std::unique_ptr<GridInspector> &gi);
     void setDropBlockAfter(bool enable);
     void setInitialPosition(int posX, int posY);
+    void setPeriod(int period);
 };
 
 

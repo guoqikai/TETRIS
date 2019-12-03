@@ -2,12 +2,14 @@
 #include "grid.h"
 #include "block.h"
 
-GridInspector::GridInspector(Grid *grid) {
-    this->grid = grid;
+GridInspector::GridInspector(Grid &grid) : grid{grid} {
+    tackedBlocks = {};
+    numRowsRemoved = 0;
+    score = 0;
 }
 
-void GridInspector::updateGrid(MovementController *mc) {
-    int removed = cleanFilledRow(std::shared_ptr<Grid> &grid);
+void GridInspector::updateGrid(MovementController &mc) {
+    int removed = cleanFilledRow();
     numRowsRemoved += removed;
     cleanRemovedBlock();
     while (removed) {
@@ -15,7 +17,7 @@ void GridInspector::updateGrid(MovementController *mc) {
         while (blockDropped) {
             blockDropped = dropAllBlock(mc);
         }
-        removed = cleanFilledRow(std::shared_ptr<Grid> &grid);
+        removed = cleanFilledRow();
         numRowsRemoved += removed;
         cleanRemovedBlock();
     }
@@ -23,30 +25,30 @@ void GridInspector::updateGrid(MovementController *mc) {
 
 int GridInspector::cleanFilledRow() const {
     int rowRemoved = 0;
-    for (int y = 3; y < grid->getMaxY(); y++) {
+    for (int y = 3; y < grid.getMaxY(); y++) {
         allFilled = true;
-        for (int x = 0; x < grid->getMaxX(); x++) {
-            if (grid->getBlockType(x, y) != "") {
+        for (int x = 0; x < grid.getMaxX(); x++) {
+            if (grid.getBlockType(x, y) != "") {
                 allFilled = false;
                 break;
             }
         }
         if (allFilled) {
-            grid->cleanOneRow(y);
+            grid.cleanOneRow(y);
             rowRemoved ++;
         }
     }
     return rowRemoved;
 }
 
-bool GridInspector::dropAllBlock(MovementController *mc) {
+bool GridInspector::dropAllBlock(MovementController &mc) {
     bool blockDropped = false;
     for ( auto i = tackedBlocks.begin(); i != tackedBlocks.end(); ++i) {
-        mc-> setCurrentBlock(i->first);
-        if (mc->dropBlock()) {
+        mc.setCurrentBlock(i->first);
+        if (mc.dropBlock()) {
             blockDropped = true;
         }
-        i->first = std::move(mc->getBlock());
+        i->first = std::move(mc.getBlock());
     }
     return blockDropped;
 }

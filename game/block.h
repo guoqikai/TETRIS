@@ -2,6 +2,7 @@
 #define BLOCK_H
 #include <vector>
 #include <memory>
+#include <string>
 
 struct Grid;
 

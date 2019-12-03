@@ -8,10 +8,9 @@ class Block;
 void PostProcessor::executePostOperation(std::unique_ptr<MovementController> &mc, std::unique_ptr<GridInspector> &gi) {
     if (dropBlockAfter && timesLeft == 0) {
         std::unique_ptr<Block> block = BlockFactory::getBlock("*");
-        if (mc->injectBlock(&blcok, initialPosX, initialPosY)) {
-            mc->dropBlock();
-            gi->addBlock(mc->getBlock());
-            gi->updateGrid();
+        if (mc.injectBlock(&blcok, initialPosX, initialPosY)) {
+            mc.dropBlock();
+            gi.addBlock(mc.getBlock());
         }
         timesLeft = period; 
     } else {

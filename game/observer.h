@@ -3,6 +3,6 @@
 
 class Observer {
  public:
-  virtual void notify(GameContrller &whoFrom, ControllerInfo) = 0;
+  virtual void notify(GameContrller &whoFrom) = 0;
 };
 #endif

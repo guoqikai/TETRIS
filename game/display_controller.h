@@ -3,22 +3,20 @@
 #include <vector>
 #include <memory>
 
-class GraphicDisplay;
-class TextDisplay;
+class Display;
 class Grid;
 
 
 class DisplayController {
-    GraphicDisplay *graphic;
-    TextDisplay *text;
+    std::vector<std::shared_ptr<GraphicDisplay>> displays;
     int controllerId;
 
 public:
-    DisplayController(GraphicDisplay *graphic, TextDisplay *text, int id);
-    void drawGrid((Grid *grid) const;
+    DisplayController(std::vector<std::shared_ptr<GraphicDisplay>> &displays, int id);
+    void drawGrid((Grid &grid) const;
     void drawNextBlock(std::vector<std::vector<bool>> const shape);
-    void emptyGrid();
     void emptyNextBlock();
+    void blind();
     void updateCurrentScore(int current) const;
     void updateHighestScore(int highest) const;
 };

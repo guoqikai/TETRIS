@@ -1,8 +1,9 @@
 #include <iostream>
 #include "interpreter.h"
 #include "operation.h"
+#include "game_controller.h"
 
-Interpreter::Interpreter(std::vector<std::map<std::string, std::unique_ptr<Operation>>> defaultSet)
+Interpreter::Interpreter(std::vector<std::map<std::string, std::shared_ptr<Operation>>> defaultSet)
 comSetMaxIndex(defaultSet.size())
 {
     commandSet = std::move(defaultset);
@@ -65,6 +66,13 @@ void Interpreter::renameCommand(std::string oldName, std::string newName) {
     }
 }
 
-void Interpreter::notify() {
-    
+void Interpreter::notify(GameContrller &whoFrom) {
+    if (whoFrom.getEvent() == ControllerEvent::Action) {
+        if (comSetMaxIndex > 0) {
+            comSetIndex = 1;
+        }
+    }
+    else if (whoFrom.getEvent() == ControllerEvent::Normal) {
+        comSetIndex = 0;
+    }
 }

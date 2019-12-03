@@ -2,8 +2,8 @@
 #include "block.h"
 #include "grid.h"
 
-MovementController::MovementController(Grid *grid) {
-    this->grid = grid;
+MovementController::MovementController(Grid &grid) : grid{grid} {
+    currentBlock = nullptr;
 }
 
 boolean MovementController::applyHeaviness() const {
@@ -95,8 +95,8 @@ void MovementController::eraseBlock(std::vector<std::vector<bool>> const &shape,
     for (int y = 0; y < shape.size; y++) { 
          for (int x = 0; x < shape[y].size(); x++) { 
              if (shape[y][x]) {
-                 grid->setBlockType(xPos + x, yPos - y, "");
-                 grid->markCell(xPos + x, yPos - y);
+                 grid.setBlockType(xPos + x, yPos - y, "");
+                 grid.markCell(xPos + x, yPos - y);
              }
          } 
     } 
@@ -106,8 +106,8 @@ void MovementController::placeBlock(std::vector<std::vector<bool>> const &shape,
     for (int y = 0; y < shape.size; y++) { 
          for (int x = 0; x < shape[y].size(); x++) { 
              if (shape[y][x]) {
-                 grid->markCell(xPos + x, yPos - y);
-                 grid->setBlockType(xPos + x, yPos - y, currentBlock->getType());
+                 grid.markCell(xPos + x, yPos - y);
+                 grid.setBlockType(xPos + x, yPos - y, currentBlock->getType());
              }
          } 
     }
@@ -116,7 +116,7 @@ void MovementController::placeBlock(std::vector<std::vector<bool>> const &shape,
 bool MovementController::canPlaceBlock(std::vector<std::vector<bool>> const &shape, int xPos, int yPos) const {
     for (int y = 0; y < shape.size; y++) { 
          for (int x = 0; x < shape[y].size(); x++) { 
-             if (shape[y][x] && grid->getBlockType(x + xPos, yPos - y) != "") {
+             if (shape[y][x] && grid.getBlockType(x + xPos, yPos - y) != "") {
                  return false;
              }
          } 
@@ -125,7 +125,7 @@ bool MovementController::canPlaceBlock(std::vector<std::vector<bool>> const &sha
 }
 
 bool MovementController::injectBlock(std::unique_ptr<Block> &blcok, int xPos, int yPos) {
-    auto shape = block.getShape();
+    auto shape = block->getShape();
     if (!canPlaceBlock(shape, xPos, yPos)) {
         return false;
     }
@@ -135,6 +135,16 @@ bool MovementController::injectBlock(std::unique_ptr<Block> &blcok, int xPos, in
     block->yPos = yPos;
     currentBlock = std::move(blcok);
     return true;
+}
+
+bool MovementController::replaceBlock(std::unique_ptr<Block> &newBlcok) {
+    newBlock->xPos = currentBlock->xPos;
+    newBlock->xPos = currentBlock->xPos;
+    newBlock->shapeIndex = currentBlock->shapeIndex;
+    newBlock->heaviness = currentBlock->heaviness;
+    newBlock->lifetime = currentBlock->lifetime;
+    newBlock->level = currentBlock->level;
+    return injectBlock(&newBlcok,  currentBlock->xPos, currentBlock->yPos)
 }
 
 void MovementController::setCurrentBlock(std::unique_ptr<Block> &blcok) {

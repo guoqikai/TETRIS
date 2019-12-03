@@ -3,7 +3,7 @@
 #include "random_block_factory.h"
 #include "block.h"
 
-RandomBlockFactory::RandomBlockFactory(std::map<std::string, int> const map) {
+RandomBlockFactory::RandomBlockFactory(std::map<std::string, int> map) {
     for (auto i = map.begin(); i != map.end(); ++i) {
         assert(i->second > 0);
         sumP += i->second;
